@@ -1,5 +1,7 @@
 // const API_KEY = 'AIzaSyC3LI_ZNfIbwBoylgUCgrmHlQB6dTCHHyg'
 
+import {API_KEY} from './services/api.js';
+
 export const mapService = {
 	initMap,
 	addMarker,
@@ -49,7 +51,6 @@ function panTo(lat, lng) {
 
 function _connectGoogleApi() {
 	if (window.google) return Promise.resolve();
-	const API_KEY = 'AIzaSyC3LI_ZNfIbwBoylgUCgrmHlQB6dTCHHyg'; //TODO: Enter your API Key
 	var elGoogleApi = document.createElement('script');
 	elGoogleApi.src = `https://maps.googleapis.com/maps/api/js?key=${API_KEY}`;
 	elGoogleApi.async = true;
