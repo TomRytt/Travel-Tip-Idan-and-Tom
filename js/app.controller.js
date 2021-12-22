@@ -23,7 +23,7 @@ window.onPanTo = onPanTo;
 window.onGetLocs = onGetLocs;
 window.onGetUserPos = onGetUserPos;
 window.onCloseModal = onCloseModal;
-window.onDone = onDone;
+window.onAddLocation = onAddLocation;
 window.onRemoveLocation = onRemoveLocation;
 window.goToMyLocation = goToMyLocation;
 
@@ -79,24 +79,17 @@ function onPanTo(lat = 35.6895, lng = 139.6917) {
 
 // }
 // Functions to work with and change names and variables accordingly
-function onDone() {
-	let pos = mapService.getLngAndLat();
+function onAddLocation() {
 	let name = document.querySelector('.modalText').value;
-	var currLocation = {
-		id: 'id' + Math.random().toString(16).slice(2),
-		lat: pos.lat,
-		lng: pos.lng,
-		name: name,
-		createdAt: new Date(),
-	};
-	locService.manageLocation(currLocation);
+	locService.addLocation(name);
+	onGetLocs();
 	onCloseModal();
 }
 
 function onCloseModal() {
 	document.querySelector('.modalText').value = '';
 	var elBtn = document.querySelector('.submitLocationBtn');
-	elBtn.removeEventListener('click', onDone);
+	elBtn.removeEventListener('click', onAddLocation);
 	document.querySelector('.modal').classList.remove('open');
 }
 
@@ -108,6 +101,7 @@ function renderUserLocations(locs) {
         <td>${location.lat}</td>
         <td>${location.lng}</td>
 		 <td>${location.createdAt}</td>
+		 <td>${location.updatedAt}</td>
 		 <td class="go-to-location-td"><button onclick="onPanTo(
 				${location.lat}, ${location.lng}
 			)">Go There</button></td>
