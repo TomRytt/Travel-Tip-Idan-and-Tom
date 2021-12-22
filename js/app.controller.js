@@ -1,8 +1,8 @@
 // Enable the user to pick a location by clicking on the map.
 // TODOS: Build the LocationService managing Locations: {id, name, lat, lng, createdAt, updatedAt, BONUS:weather, }
 // Locations are saved to localStorage
-// TODOS: Render the locations table:a. Show the location information
-// TODOS: Add an Actions column with buttons: Go עand Delete
+// Render the locations table:a. Show the location information
+// TODOS: Add an Actions column with buttons: Go and Delete
 //                                           a. Go – pans the map to that location
 //                                           b. Delete – use the service to delete the location
 // TODOS: Create a “my-location” button that pan the map to the user’s location.
@@ -117,3 +117,44 @@ function onRemoveLocation(locationId) {
 	removeLocation(locationId);
 	renderUserLocations();
 }
+
+// function goToMyLocation() {
+//     getPosition()
+// }
+
+// function getPosition() {
+//     if (!navigator.geolocation) {
+//         alert("HTML5 Geolocation is not supported in your browser.");
+//         return;
+//     }
+//     navigator.geolocation.getCurrentPosition(showLocation, handleLocationError);
+// }
+// function showLocation(position) {
+//     console.log(position);
+//     document.getElementById("latitude").innerHTML = position.coords.latitude;
+//     document.getElementById("longitude").innerHTML = position.coords.longitude;
+//     document.getElementById("accuracy").innerHTML = position.coords.accuracy;
+
+//     var date = new Date(position.timestamp);
+//     document.getElementById("timestamp").innerHTML = date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds();
+//     initMap(position.coords.latitude, position.coords.longitude);
+// }
+
+// function handleLocationError(error) {
+//     var locationError = document.getElementById("locationError");
+
+//     switch (error.code) {
+//         case 0:
+//             locationError.innerHTML = "There was an error while retrieving your location: " + error.message;
+//             break;
+//         case 1:
+//             locationError.innerHTML = "The user didn't allow this page to retrieve a location.";
+//             break;
+//         case 2:
+//             locationError.innerHTML = "The browser was unable to determine your location: " + error.message;
+//             break;
+//         case 3:
+//             locationError.innerHTML = "The browser timed out before retrieving the location.";
+//             break;
+//     }
+// }
