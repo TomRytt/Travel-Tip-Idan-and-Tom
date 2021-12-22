@@ -2,7 +2,7 @@
 // TODOS: Build the LocationService managing Locations: {id, name, lat, lng, createdAt, updatedAt, BONUS:weather, }
 // Locations are saved to localStorage
 // Render the locations table:a. Show the location information
-// TODOS: Add an Actions column with buttons: Go and Delete
+// Add an Actions column with buttons: Go and Delete
 //                                           a. Go – pans the map to that location
 //                                           b. Delete – use the service to delete the location
 // TODOS: Create a “my-location” button that pan the map to the user’s location.

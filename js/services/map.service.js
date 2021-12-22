@@ -1,6 +1,7 @@
-// const API_KEY = 'AIzaSyC3LI_ZNfIbwBoylgUCgrmHlQB6dTCHHyg'
 
-import {API_KEY} from './api.js';
+import { API_KEY } from './api.js';
+import { GEOAPI_KEY } from './api.js';
+import { locService } from './loc.service.js';
 
 export const mapService = {
 	initMap,
@@ -8,6 +9,7 @@ export const mapService = {
 	panTo,
 	clickLoc,
 	getLngAndLat,
+	goToSearchLocation,
 };
 
 var gMap;
@@ -19,7 +21,7 @@ function initMap(lat = 32.0749831, lng = 34.9120554) {
 	return _connectGoogleApi().then(() => {
 		console.log('google available');
 		gMap = new google.maps.Map(document.querySelector('#map'), {
-			center: {lat, lng},
+			center: { lat, lng },
 			zoom: 15,
 		});
 		google.maps.event.addListener(gMap, 'click', function (event) {
@@ -28,14 +30,14 @@ function initMap(lat = 32.0749831, lng = 34.9120554) {
 			var elBtn = document.querySelector('.submitLocationBtn');
 			gLat = event.latLng.lat();
 			gLng = event.latLng.lng();
-			getLngAndLat(gLat,gLng)
+			getLngAndLat(gLat, gLng)
 			elBtn.addEventListener('click', onDone);
 		});
 	});
 }
 
-function getLngAndLat(){
-	let pos= {lat: gLat, lng: gLng}
+function getLngAndLat() {
+	let pos = { lat: gLat, lng: gLng }
 	return pos
 }
 
@@ -48,7 +50,7 @@ function addMarker(loc) {
 	return marker;
 }
 
-function clickLoc(loc) {}
+function clickLoc(loc) { }
 
 function panTo(lat, lng) {
 	var laLatLng = new google.maps.LatLng(lat, lng);
@@ -59,6 +61,7 @@ function _connectGoogleApi() {
 	if (window.google) return Promise.resolve();
 	var elGoogleApi = document.createElement('script');
 	elGoogleApi.src = `https://maps.googleapis.com/maps/api/js?key=${API_KEY}`;
+	//    
 	elGoogleApi.async = true;
 	document.body.append(elGoogleApi);
 
@@ -67,3 +70,25 @@ function _connectGoogleApi() {
 		elGoogleApi.onerror = () => reject('Google script failed to load');
 	});
 }
+
+function goToSearchLocation(value) {
+	console.log('goToSearch Test')
+	var xhr = new XMLHttpRequest();
+	xhr.onreadystatechange = () => {
+		if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
+			const data = JSON.parse(xhr.responseText)
+				const currLocation = {
+				id: 'id' + Math.random().toString(16).slice(2),
+				lat: data.results[0].geometry.location.lat,
+				lng: data.results[0].geometry.location.lng,
+				name: value,
+				createdAt: new Date(),
+			}
+			locService.manageLocation(currLocation);
+			panTo(data.results[0].geometry.location.lat, data.results[0].geometry.location.lng)
+		}
+	}
+	xhr.open('GET', `https://maps.googleapis.com/maps/api/geocode/json?address=${value}&key=${GEOAPI_KEY}`, true);
+	xhr.send();
+}
+
