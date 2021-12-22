@@ -7,6 +7,7 @@ export const mapService = {
 	addMarker,
 	panTo,
 	clickLoc,
+	getLngAndLat,
 };
 
 var gMap;
@@ -27,10 +28,15 @@ function initMap(lat = 32.0749831, lng = 34.9120554) {
 			var elBtn = document.querySelector('.submitLocationBtn');
 			gLat = event.latLng.lat();
 			gLng = event.latLng.lng();
+			getLngAndLat(gLat,gLng)
 			elBtn.addEventListener('click', onDone);
 		});
-		console.log('Map!', gMap);
 	});
+}
+
+function getLngAndLat(){
+	let pos= {lat: gLat, lng: gLng}
+	return pos
 }
 
 function addMarker(loc) {

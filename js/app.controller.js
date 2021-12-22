@@ -1,6 +1,6 @@
-// TODOS: Enable the user to pick a location by clicking on the map.
+// Enable the user to pick a location by clicking on the map.
 // TODOS: Build the LocationService managing Locations: {id, name, lat, lng, createdAt, updatedAt, BONUS:weather, }
-// TODOS: Locations are saved to localStorage
+// Locations are saved to localStorage
 // TODOS: Render the locations table:a. Show the location information
 // TODOS: Add an Actions column with buttons: Go and Delete
 //                                           a. Go – pans the map to that location
@@ -23,6 +23,7 @@ window.onPanTo = onPanTo;
 window.onGetLocs = onGetLocs;
 window.onGetUserPos = onGetUserPos;
 window.onCloseModal = onCloseModal;
+window.onDone = onDone;
 
 function onInit() {
 	mapService
@@ -75,22 +76,26 @@ function onPanTo() {
 	mapService.panTo(35.6895, 139.6917);
 }
 
+// function getCoords() {
+
+// }
 // Functions to work with and change names and variables accordingly
 function onDone() {
+	let pos = mapService.getLngAndLat()
 	let name = document.querySelector('.modalText').value;
 	var currLocation = {
-		id: makeId(),
-		lat: gLat,
-		lng: gLng,
+		id: 'id' + Math.random().toString(16).slice(2),
+		lat: pos.lat,
+		lng: pos.lng,
 		name: name,
+		createdAt: new Date()
 	};
-	manageLocation(currLocation);
+	console.log(currLocation)
+	locService.manageLocation(currLocation);
 	onCloseModal();
 }
 
 function onCloseModal() {
-	gLat = null;
-	gLng = null;
 	document.querySelector('.modalText').value = '';
 	var elBtn = document.querySelector('.submitLocationBtn');
 	elBtn.removeEventListener('click', onDone);
