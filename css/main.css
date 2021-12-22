@@ -105,3 +105,12 @@ ul {
 .align-center {
 	align-items: center;
 }
+
+td {
+	text-align: center;
+	border: 1px solid black;
+}
+
+.remove-loc-td {
+	border: none;
+}

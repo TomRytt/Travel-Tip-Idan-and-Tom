@@ -2,7 +2,7 @@
 // TODOS: Build the LocationService managing Locations: {id, name, lat, lng, createdAt, updatedAt, BONUS:weather, }
 // Locations are saved to localStorage
 // TODOS: Render the locations table:a. Show the location information
-// TODOS: Add an Actions column with buttons: Go and Delete
+// TODOS: Add an Actions column with buttons: Go עand Delete
 //                                           a. Go – pans the map to that location
 //                                           b. Delete – use the service to delete the location
 // TODOS: Create a “my-location” button that pan the map to the user’s location.
@@ -24,6 +24,7 @@ window.onGetLocs = onGetLocs;
 window.onGetUserPos = onGetUserPos;
 window.onCloseModal = onCloseModal;
 window.onDone = onDone;
+window.onRemoveLocation = onRemoveLocation;
 
 function onInit() {
 	mapService
@@ -50,13 +51,9 @@ function onAddMarker() {
 function onGetLocs() {
 	locService.getLocs().then((locs) => {
 		console.log('Locations:', locs);
-		document.querySelector('.locs').innerText = JSON.stringify(locs);
+		// document.querySelector('.locs').innerText = JSON.stringify(locs);
+		renderUserLocations(locs);
 	});
-}
-
-function onClickLoc(event) {
-	google.maps.event.addListener(map, 'click', getLoc(event));
-	google.maps.event.addListener(alert('hi'));
 }
 
 function onGetUserPos() {
@@ -81,16 +78,15 @@ function onPanTo() {
 // }
 // Functions to work with and change names and variables accordingly
 function onDone() {
-	let pos = mapService.getLngAndLat()
+	let pos = mapService.getLngAndLat();
 	let name = document.querySelector('.modalText').value;
 	var currLocation = {
 		id: 'id' + Math.random().toString(16).slice(2),
 		lat: pos.lat,
 		lng: pos.lng,
 		name: name,
-		createdAt: new Date()
+		createdAt: new Date(),
 	};
-	console.log(currLocation)
 	locService.manageLocation(currLocation);
 	onCloseModal();
 }
@@ -100,4 +96,24 @@ function onCloseModal() {
 	var elBtn = document.querySelector('.submitLocationBtn');
 	elBtn.removeEventListener('click', onDone);
 	document.querySelector('.modal').classList.remove('open');
+}
+
+function renderUserLocations(locs) {
+	// var userLocations = getUserLocations();
+	var strHTML = locs.map((location) => {
+		return `<tr>
+         <td>${location.name}</td>
+        <td>${location.lat}</td>
+        <td>${location.lng}</td>
+		 <td>${location.createdAt}</td>
+        <td class="remove-loc-td"><button onclick="onRemoveLocation('${location.id}')">x</button></td>
+        </tr>`;
+	});
+	document.querySelector('.user-locations').innerHTML = strHTML.join('');
+}
+
+function onRemoveLocation(locationId) {
+	getLocationById(locationId);
+	removeLocation(locationId);
+	renderUserLocations();
 }
