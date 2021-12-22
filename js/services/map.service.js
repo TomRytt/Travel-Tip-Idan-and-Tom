@@ -30,15 +30,25 @@ function initMap(lat = 32.0749831, lng = 34.9120554) {
 			var elBtn = document.querySelector('.submitLocationBtn');
 			gLat = event.latLng.lat();
 			gLng = event.latLng.lng();
+<<<<<<< HEAD
 			getLngAndLat(gLat, gLng)
 			elBtn.addEventListener('click', onDone);
+=======
+			getLngAndLat(gLat, gLng);
+			elBtn.addEventListener('click', onAddLocation);
+>>>>>>> 318fac16507aab713cb87847bb747c61b097c789
 		});
 	});
 }
 
 function getLngAndLat() {
+<<<<<<< HEAD
 	let pos = { lat: gLat, lng: gLng }
 	return pos
+=======
+	let pos = {lat: gLat, lng: gLng};
+	return pos;
+>>>>>>> 318fac16507aab713cb87847bb747c61b097c789
 }
 
 function addMarker(loc) {
@@ -71,6 +81,7 @@ function _connectGoogleApi() {
 	});
 }
 
+<<<<<<< HEAD
 function goToSearchLocation(value) {
 	console.log('goToSearch Test')
 	var xhr = new XMLHttpRequest();
@@ -92,3 +103,19 @@ function goToSearchLocation(value) {
 	xhr.send();
 }
 
+=======
+// function onDone() {
+// 	let pos = mapService.getLngAndLat();
+// 	let name = document.querySelector('.modalText').value;
+// 	var currLocation = {
+// 		id: 'id' + Math.random().toString(16).slice(2),
+// 		lat: pos.lat,
+// 		lng: pos.lng,
+// 		name: name,
+// 		createdAt: new Date(),
+// 		updatedAt: new Date(),
+// 	};
+// 	locService.manageLocation(currLocation);
+// 	onCloseModal();
+// }
+>>>>>>> 318fac16507aab713cb87847bb747c61b097c789

@@ -23,8 +23,9 @@ window.onPanTo = onPanTo;
 window.onGetLocs = onGetLocs;
 window.onGetUserPos = onGetUserPos;
 window.onCloseModal = onCloseModal;
-window.onDone = onDone;
+window.onAddLocation = onAddLocation;
 window.onRemoveLocation = onRemoveLocation;
+window.goToMyLocation = goToMyLocation;
 
 function onInit() {
 	mapService
@@ -68,33 +69,27 @@ function onGetUserPos() {
 			console.log('err!!!', err);
 		});
 }
-function onPanTo() {
+function onPanTo(lat = 35.6895, lng = 139.6917) {
+	console.log(lat, lng);
 	console.log('Panning the Map');
-	mapService.panTo(35.6895, 139.6917);
+	mapService.panTo(lat, lng);
 }
 
 // function getCoords() {
 
 // }
 // Functions to work with and change names and variables accordingly
-function onDone() {
-	let pos = mapService.getLngAndLat();
+function onAddLocation() {
 	let name = document.querySelector('.modalText').value;
-	var currLocation = {
-		id: 'id' + Math.random().toString(16).slice(2),
-		lat: pos.lat,
-		lng: pos.lng,
-		name: name,
-		createdAt: new Date(),
-	};
-	locService.manageLocation(currLocation);
+	locService.addLocation(name);
+	onGetLocs();
 	onCloseModal();
 }
 
 function onCloseModal() {
 	document.querySelector('.modalText').value = '';
 	var elBtn = document.querySelector('.submitLocationBtn');
-	elBtn.removeEventListener('click', onDone);
+	elBtn.removeEventListener('click', onAddLocation);
 	document.querySelector('.modal').classList.remove('open');
 }
 
@@ -106,6 +101,10 @@ function renderUserLocations(locs) {
         <td>${location.lat}</td>
         <td>${location.lng}</td>
 		 <td>${location.createdAt}</td>
+		 <td>${location.updatedAt}</td>
+		 <td class="go-to-location-td"><button onclick="onPanTo(
+				${location.lat}, ${location.lng}
+			)">Go There</button></td>
         <td class="remove-loc-td"><button onclick="onRemoveLocation('${location.id}')">x</button></td>
         </tr>`;
 	});
@@ -113,14 +112,16 @@ function renderUserLocations(locs) {
 }
 
 function onRemoveLocation(locationId) {
-	getLocationById(locationId);
-	removeLocation(locationId);
-	renderUserLocations();
+	locService.getLocationById(locationId);
+	locService.removeLocation(locationId);
+	onGetLocs();
 }
 
-// function goToMyLocation() {
-//     getPosition()
-// }
+function goToMyLocation() {
+	getPosition().then((pos) => {
+		onPanTo(pos.coords.latitude, pos.coords.longitude);
+	});
+}
 
 // function getPosition() {
 //     if (!navigator.geolocation) {

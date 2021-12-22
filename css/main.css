@@ -23,7 +23,7 @@ body {
 
 .myLocaitonbtn {
 	background-color: transparent;
-	top: 94vh;
+	top: 48vh;
 	left: 0;
 	position: fixed;
 	border: none;
@@ -112,5 +112,9 @@ td {
 }
 
 .remove-loc-td {
+	border: none;
+}
+
+.go-to-location-td {
 	border: none;
 }
