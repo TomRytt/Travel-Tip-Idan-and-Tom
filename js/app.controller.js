@@ -25,6 +25,7 @@ window.onGetUserPos = onGetUserPos;
 window.onCloseModal = onCloseModal;
 window.onDone = onDone;
 window.onRemoveLocation = onRemoveLocation;
+window.goToMyLocation = goToMyLocation;
 
 function onInit() {
 	mapService
@@ -68,9 +69,10 @@ function onGetUserPos() {
 			console.log('err!!!', err);
 		});
 }
-function onPanTo() {
+function onPanTo(lat = 35.6895, lng = 139.6917) {
+	console.log(lat, lng);
 	console.log('Panning the Map');
-	mapService.panTo(35.6895, 139.6917);
+	mapService.panTo(lat, lng);
 }
 
 // function getCoords() {
@@ -106,6 +108,9 @@ function renderUserLocations(locs) {
         <td>${location.lat}</td>
         <td>${location.lng}</td>
 		 <td>${location.createdAt}</td>
+		 <td class="go-to-location-td"><button onclick="onPanTo(
+				${location.lat}, ${location.lng}
+			)">Go There</button></td>
         <td class="remove-loc-td"><button onclick="onRemoveLocation('${location.id}')">x</button></td>
         </tr>`;
 	});
@@ -113,14 +118,16 @@ function renderUserLocations(locs) {
 }
 
 function onRemoveLocation(locationId) {
-	getLocationById(locationId);
-	removeLocation(locationId);
-	renderUserLocations();
+	locService.getLocationById(locationId);
+	locService.removeLocation(locationId);
+	onGetLocs();
 }
 
-// function goToMyLocation() {
-//     getPosition()
-// }
+function goToMyLocation() {
+	getPosition().then((pos) => {
+		onPanTo(pos.coords.latitude, pos.coords.longitude);
+	});
+}
 
 // function getPosition() {
 //     if (!navigator.geolocation) {
