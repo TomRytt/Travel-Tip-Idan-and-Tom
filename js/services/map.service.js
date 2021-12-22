@@ -1,6 +1,6 @@
 // const API_KEY = 'AIzaSyC3LI_ZNfIbwBoylgUCgrmHlQB6dTCHHyg'
 
-import {API_KEY} from './services/api.js';
+import {API_KEY} from './api.js';
 
 export const mapService = {
 	initMap,
