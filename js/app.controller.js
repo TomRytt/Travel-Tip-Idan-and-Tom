@@ -1,3 +1,20 @@
+// TODOS: Enable the user to pick a location by clicking on the map.
+// TODOS: Build the LocationService managing Locations: {id, name, lat, lng, weather, createdAt, updatedAt}
+// TODOS: Locations are saved to localStorage
+// TODOS: Render the locations table:a. Show the location information
+// TODOS: Add an Actions column with buttons: Go and Delete
+//                                           a. Go – pans the map to that location
+//                                           b. Delete – use the service to delete the location
+// TODOS: Create a “my-location” button that pan the map to the user’s location.
+// TODOS: Implement search: user enters an address (such as Tokyo) use the google Geocode API to turn it into cords 
+//        (such as: {lat: 35.62, lng:139.79}) pan the map and also add it as new location.
+// TODOS: Create a ‘copy link’ button that saves a link to the clipboard. 
+//        The link will be to your application (URL for GitHub pages) with the Lat and Lng params. 
+//        When opening the link your proj should open a map showing the location according to the lat/lng from the query string parameters.
+//           a. This app should be deployed to github-pages, so the URL should be something like: https://github.io/me/travelTip/index.html?lat=3.14&lng=1.63
+//           b. When app loads it looks into the query string params and if there are lat/lng params (see here), it will display accordingly.
+
+
 import { locService } from './services/loc.service.js'
 import { mapService } from './services/map.service.js'
 

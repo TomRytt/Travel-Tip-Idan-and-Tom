@@ -1,3 +1,5 @@
+
+import { StorageService } from './services/storage-service.js'
 export const locService = {
     getLocs
 }
@@ -14,6 +16,6 @@ function getLocs() {
             resolve(locs);
         }, 2000)
     });
-}
+ }
 
 
